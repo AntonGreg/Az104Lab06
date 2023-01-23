@@ -7,3 +7,7 @@ debe incluir Azure Load Balancer y Azure Application Gateway.
 DIAGRAMA DE LA ARQUITECTURA
 
 ![](img/img1.png)
+
+Parte 1
+
+Esta
