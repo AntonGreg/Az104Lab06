@@ -6,4 +6,4 @@ debe incluir Azure Load Balancer y Azure Application Gateway.
 
 DIAGRAMA DE LA ARQUITECTURA
 
-![](C:\Repositorios\AzureLab06\img\img1.png)
+![](img/img1.png)
