@@ -1,6 +1,4 @@
-# AzureLab06
-Implement Traffic Management Student lab manual
-
+# AzureLab06: 
 En este lab implementaremos un "hub spoke topology" para el tráfico de red. La topología
 debe incluir Azure Load Balancer y Azure Application Gateway.
 
@@ -232,7 +230,7 @@ En esta tarea, implementará cuatro máquinas virtuales en la misma región de A
 
             ![](img/img42.png)
 
-            ### Tarea 5:
+            ### Tarea 5: Implementar Azure Load Balancer
 
             ------
 
@@ -307,7 +305,7 @@ En esta tarea, implementará cuatro máquinas virtuales en la misma región de A
 
             Podemos comprobar que el balaceador funciona correctamente entre las máquinas virtuales.
 
-            ### Tarea 6:
+            ### Tarea 6: Implementar Azure Application Gateway
 
             ------
 
@@ -320,9 +318,83 @@ En esta tarea, implementará cuatro máquinas virtuales en la misma región de A
 
             2. A continuacion buscamos en el portal Application Gateway > +create
 
-            
+               Basics
+
+               | Settings                 | Value                             |
+               | ------------------------ | --------------------------------- |
+               | Subscription             | enabled                           |
+               | Resource group           | ***\*az104-06-rg5\****            |
+               | Application gateway name | **az104-06-appgw5**               |
+               | Region                   | eastus                            |
+               | Tier                     | **Standard V2**                   |
+               | Enable autoscaling       | **No**                            |
+               | Instance count           | **2**                             |
+               | Availability zone        | **None**                          |
+               | HTTP2                    | **Disabled**                      |
+               | Virtual network          | **az104-06-vnet01**               |
+               | Subnet                   | **subnet-appgw (10.60.3.224/27)** |
 
             ![](img/img36.png)
+
+            ​		Frontend
+
+            | Settings                 | Value                   |
+            | ------------------------ | ----------------------- |
+            | Frontend IP address type | **Public**              |
+            | Public IP address        | **Add new**             |
+            | Name                     | ***\*az104-06-pip5\**** |
+            | Availability zone        | **None**                |
+
+            Backend
+
+            | Settings                         | Value                   |
+            | -------------------------------- | ----------------------- |
+            | Name                             | **az104-06-appgw5-be1** |
+            | Add backend pool without targets | **No**                  |
+            | IP address or FQDN               | **10.62.0.4**           |
+            | IP address or FQDN               | **10.63.0.4**           |
+
+            Add routing rule
+
+            | Settings       | Value                   |
+            | -------------- | ----------------------- |
+            | Rule name      | **az104-06-appgw5-be1** |
+            | Priority       | **No**                  |
+            | Listener name  | **10.62.0.4**           |
+            | Frontend IP    | **10.63.0.4**           |
+            | Protocol       | **HTTP**                |
+            | Port           | **80**                  |
+            | Listener type  | **Basic**               |
+            | Error page url | **No**                  |
+
+            
+
+            
+
+            ![](img/img37.png)
+
+            Backend targets
+
+            | Settings              | Value                           |
+            | --------------------- | ------------------------------- |
+            | Target type           | **Backend pool**                |
+            | Backend target        | **az104-06-appgw5-be1**         |
+            | Backend settings      | ***\*Add new\****               |
+            | Backend settings name | ***\*az104-06-appgw5-http1\**** |
+            | Backend protocol      | **HTTP**                        |
+            | Backend port          | **80**                          |
+            | Additional settings   | defaults                        |
+            | Host name             | defaults                        |
+
+            Revisamos y creamos.
+
+            ![](C:\Repositorios\AzureLab06\img\img38.png) 
+
+            Vamos al application gateway y copiamos la ip publica del frontend
+
+            Al copiarla en una pestaña nueva del navegador veremos como varia el balanceo entre la vm3 y la vm2 cuando damos Ctrl + F5:
+
+            ![](C:\Repositorios\AzureLab06\img\img40.png)
 
             
 
